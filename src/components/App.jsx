@@ -1,23 +1,25 @@
 import "./App.css";
-import { Profile } from "./Profile";
-import { FriendList } from "./FriendList";
-import { TransactionHistory } from "./TransactionHistory";
-import userData from "../userData.json";
-import friends from "../friends.json";
-import transactions from "../transactions.json";
+import Description from "./Description";
+import Feedback from "./Feedback";
+import Options from "./Options";
+import { useState } from "react";
 
 const App = () => {
+  const [rates, setRates] = useState({ good: 0, neutral: 0, bad: 0 });
+
+  const updateFeedback = (feedbackType) => {
+    e.target.value;
+    setRates({
+      ...rates,
+      bad: rates.bad + 1,
+    });
+  };
+
   return (
     <>
-      <Profile
-        name={userData.username}
-        tag={userData.tag}
-        location={userData.location}
-        image={userData.avatar}
-        stats={userData.stats}
-      />
-      <FriendList friends={friends} />
-      <TransactionHistory items={transactions} />
+      <Description />
+      <Options onUpdate={updateFeedback(event)} />
+      <Feedback {...rates} />
     </>
   );
 };
