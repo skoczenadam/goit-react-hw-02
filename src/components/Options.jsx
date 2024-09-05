@@ -1,11 +1,10 @@
-const Options = ({ onUpdate }) => {
-  console.log(onUpdate);
-
+const Options = ({ onUpdate, onReset, onNotZero }) => {
   return (
     <div>
-      <button onClick={onUpdate}>Good</button>
-      <button onClick={onUpdate}>Neutral</button>
-      <button onClick={onUpdate}>Bad</button>
+      <button onClick={() => onUpdate("good")}>Good</button>
+      <button onClick={() => onUpdate("neutral")}>Neutral</button>
+      <button onClick={() => onUpdate("bad")}>Bad</button>
+      {onNotZero ? <button onClick={onReset}>Reset</button> : <></>}
     </div>
   );
 };
