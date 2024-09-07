@@ -7,15 +7,23 @@ import { useEffect, useState } from "react";
 
 const App = () => {
   const [rates, setRates] = useState(() => {
-    const ratesFromLocalStorage = localStorage.getItem("rates");
-    if (ratesFromLocalStorage !== null) {
-      return JSON.parse(ratesFromLocalStorage);
+    try {
+      const ratesFromLocalStorage = localStorage.getItem("rates");
+      if (ratesFromLocalStorage !== null) {
+        return JSON.parse(ratesFromLocalStorage);
+      }
+      return {
+        good: 0,
+        neutral: 0,
+        bad: 0,
+      };
+    } catch (e) {
+      return {
+        good: 0,
+        neutral: 0,
+        bad: 0,
+      };
     }
-    return {
-      good: 0,
-      neutral: 0,
-      bad: 0,
-    };
   });
 
   const updateFeedback = (feedbackType) => {
@@ -38,9 +46,9 @@ const App = () => {
   }, [rates]);
 
   const totalFeedback = rates.good + rates.neutral + rates.bad;
-  const positive = Math.round(
-    ((rates.good + rates.neutral) / totalFeedback) * 100
-  );
+  const positive = totalFeedback
+    ? Math.round(((rates.good + rates.neutral) / totalFeedback) * 100)
+    : 0;
 
   return (
     <>
@@ -48,7 +56,7 @@ const App = () => {
       <Options
         onUpdate={updateFeedback}
         onReset={ratesReset}
-        onNotZero={totalFeedback}
+        hasFeedback={totalFeedback}
       />
       {totalFeedback ? (
         <Feedback
